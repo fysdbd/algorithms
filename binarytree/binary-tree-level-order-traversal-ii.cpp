@@ -1,8 +1,24 @@
+
 /*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
+    Binary Tree Level Order Traversal II
+
+    Given a binary tree, return the bottom-up level order traversal of its nodes' values. (ie, from left to right, level by level from leaf to root).
+
+    For example:
+    Given binary tree [3,9,20,null,null,15,7],
+        3
+       / \
+      9  20
+        /  \
+       15   7
+    return its bottom-up level order traversal as:
+    [
+      [15,7],
+      [9,20],
+      [3]
+    ]
+
+*/
 
 /**
  * Definition for a binary tree node.
@@ -16,32 +32,24 @@
 class Solution {
 public:
     vector<vector<int>> levelOrderBottom(TreeNode* root) {
+        vector<vector<int>> result;
+        queue<pair<TreeNode*,int>> nodes;
+        nodes.push(make_pair(root, 1));
 
-        vector<vector<int>> result; vector<vector<TreeNode*>> generator;
-        if (root == NULL) return result;
-        
-        vector<int> r_level;
-        vector<TreeNode*> g_level; g_level.push_back(root); generator.push_back(g_level); g_level.clear();
-        
-        int curr_level = 0;
-        while(true)
-        {
-            if (generator.at(curr_level).empty()) break;
-            for (auto ptr = generator.at(curr_level).begin(); ptr != generator.at(curr_level).end(); ptr++)
-            {
-                r_level.push_back((*ptr)->val);
-                if ((*ptr)->left != NULL) g_level.push_back((*ptr)->left);
-                if ((*ptr)->right != NULL) g_level.push_back((*ptr)->right);
-                
-            }
-            result.push_back(r_level);
-            generator.push_back(g_level);
-            
-            r_level.clear(); g_level.clear();
-            curr_level++;
+        while (!nodes.empty()) {
+            auto node = nodes.front().first;
+            auto level = nodes.front().second;
+            nodes.pop();
+
+            if (node == nullptr) { continue; }
+            if (level > result.size()) { result.push_back(vector<int>()); }
+            result.back().push_back(node->val);
+            nodes.push(make_pair(node->left, level+1));
+            nodes.push(make_pair(node->right, level+1));
         }
-        
+
         reverse(result.begin(), result.end());
         return result;
     }
 };
+
