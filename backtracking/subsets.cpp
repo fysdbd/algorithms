@@ -31,7 +31,7 @@
 class Solution {
 public:
     /**
-     * @param S: A set of numbers.
+     * @param nums: A set of numbers.
      * @return: A list of lists. All valid subsets.
      */
     void traverse(vector<int>& nums,
