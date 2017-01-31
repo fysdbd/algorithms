@@ -37,18 +37,18 @@
  *  TreeLinkNode(int x) : val(x), left(NULL), right(NULL), next(NULL) {}
  * };
  */
+
 class Solution {
 public:
-    vector<vector<int>> connect(TreeLinkNode* root) {
-        if (root == nullptr) { return {}; }
+    void connect(TreeLinkNode *root) {
+        if (root == nullptr) { return; }
         
-        vector<vector<int>> result;
         queue<pair<TreeLinkNode*,int>> nodes;
         nodes.push(make_pair(root, 1));
-
         while (!nodes.empty()) {
-            auto node = nodes.front().first;
-            auto level = nodes.front().second;
+
+            TreeLinkNode* node = nodes.front().first;
+            int level = nodes.front().second;
             nodes.pop();
 
             node->next = ( (nodes.empty() || level < nodes.front().second) ? nullptr : nodes.front().first );
@@ -57,6 +57,5 @@ public:
             if (node->right != nullptr) { nodes.push(make_pair(node->right, level+1)); }
         }
 
-        return result;
     }
 };
